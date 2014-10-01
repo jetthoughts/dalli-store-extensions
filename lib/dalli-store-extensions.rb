@@ -24,9 +24,10 @@ class ActiveSupport::Cache::DalliStore
   alias_method_chain :delete_entry, :match_support
 
   def delete_matched(matcher, options=nil)
+    matcher = /^#{matcher}.*$/ if matcher.is_a? String
     keys.each do |key|
       delete_entry(key, options) if key =~ matcher
-    end 
+    end
   end
 
   def keys
