@@ -5,7 +5,8 @@ class KeySet < Set
     @store     = store
     @store_key = store_key
 
-    super(Array.wrap(@store.send(:read_entry, @store_key, {})))
+    super([])
+    do_with_enum(Array.wrap(@store.send(:read_entry, @store_key, {}))) { |o| add_without_cache(o) }
   end
 
   def add_with_cache(value)
