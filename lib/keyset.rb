@@ -2,16 +2,10 @@ require 'active_support/core_ext/module/aliasing'
 
 class KeySet < Set
   def initialize(store, store_key)
-    @store = store
+    @store     = store
     @store_key = store_key
 
-
-    if existing=@store.send(:read_entry, @store_key, {})
-      super(YAML.load(existing))
-    else
-      super([])
-    end
-
+    super(Array.wrap(@store.send(:read_entry, @store_key, {})))
   end
 
   def add_with_cache(value)
@@ -40,7 +34,7 @@ class KeySet < Set
   private
   def store
     @store.with do |connection|
-      @store.send(:write_entry_without_match_support, @store_key, self.to_a.to_yaml, { connection: connection})
+      @store.send(:write_entry_without_match_support, @store_key, self.to_a, connection: connection)
     end
   end
 end

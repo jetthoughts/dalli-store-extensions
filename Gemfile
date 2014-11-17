@@ -1,6 +1,6 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 gem 'activesupport'
 gem 'rspec'
-gem 'dalli'
+gem 'dalli', '>= 1.0.0'
 gem 'i18n'
